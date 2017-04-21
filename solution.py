@@ -1,15 +1,14 @@
+import itertools
+
 assignments = []
+rows = 'ABCDEFGHI'
+cols = '123456789'
 
 def assign_value(values, box, value):
     """
     Please use this function to update your values dictionary!
     Assigns a value to a given box. If it updates the board record it.
     """
-
-    # Don't waste memory appending actions that don't actually change any values
-    if values[box] == value:
-        return values
-
     values[box] = value
     if len(value) == 1:
         assignments.append(values.copy())
@@ -23,13 +22,38 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-
-    # Find all instances of naked twins
-    # Eliminate the naked twins as possibilities for their peers
+      for unit in unitlist:
+        # Identifies all boxes with pair prospectss
+        pairs = [box for box in unit if len(values[box]) == 2]
+        # Possible combinations of naked twins
+        naked_twins = [list(pair) for pair in itertools.combinations(pairs, 2)]
+        
+        for pair in naked_twins:
+            
+            box1 = pair[0]
+            box2 = pair[1]
+            
+            if values[box1] == values[box2]:
+                for box in unit:
+                    if box != box1 and box != box2:
+                        for digit in values[box1]:
+                            values[box] = values[box].replace(digit,'')
+    return values
 
 def cross(A, B):
     "Cross product of elements in A and elements in B."
-    pass
+    
+    cross_product = [a+b for a in A for b in B]
+    return cross_product
+
+boxes = cross(rows, cols)
+# Generates a list of all the units in a sudoku
+unitlist = ([cross(rows, c) for c in cols] +
+            [cross(r, cols) for r in rows] +
+            [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')])
+# Maps all peers of each box
+units = dict((a, [u for u in unitlist if a in u]) for a in boxes)
+peers = dict((a, set(sum(units[a],[]))-set([a])) for a in boxes)
 
 def grid_values(grid):
     """
@@ -41,7 +65,13 @@ def grid_values(grid):
             Keys: The boxes, e.g., 'A1'
             Values: The value in each box, e.g., '8'. If the box has no value, then the value will be '123456789'.
     """
-    pass
+    sudoku_grid = {}
+    for val, key in zip(grid, boxes):
+        if val == '.':
+            sudoku_grid[key] = '123456789'
+        else:
+            sudoku_grid[key] = val
+    return sudoku_grid
 
 def display(values):
     """
@@ -49,13 +79,31 @@ def display(values):
     Args:
         values(dict): The sudoku in dictionary form
     """
-    pass
-
+     width = 1+max(len(values[s]) for s in squares)
+    line = '+'.join(['-'*(width*3)]*3)
+    for r in rows:
+        print(''.join(values[r+c].center(width)+('|' if c in '36' else '')
+                      for c in cols))
+        if r in 'CF': print(line)
+    print()
+    
 def eliminate(values):
-    pass
+new_values = values.copy()
+    for box in values:
+        if len(values[box]) == 1:
+            for p in peers[box]:
+                assign_value(evalues, p, evalues[p].replace(values[box], ''))
+    return new_values
 
 def only_choice(values):
-    pass
+    new_values = values.copy()
+    for unit in diag_unitlist:
+        for digit in '123456789':
+            dplaces = [box for box in unit if digit in new_values[box]]
+            if len(dplaces) == 1:
+                new_values[dplaces[0]] = digit
+                assign_value(new_values, dplaces[0], new_values[dplaces[0]]) # viz
+    return new_values
 
 def reduce_puzzle(values):
     pass
