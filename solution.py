@@ -106,10 +106,38 @@ def only_choice(values):
     return new_values
 
 def reduce_puzzle(values):
-    pass
+    new_values = values.copy()
+    solved_values = [box for box in values.keys() if len(values[box]) == 1]
+    stalled = False
+    while not stalled:
+        solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
+        # Eliminating via exclusion
+        values = eliminate(values)
+        values = naked_twins(values)
+        # Creating a reductionist strategy to a single remainder option
+        values = only_choice(values)
+        solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
+        stalled = solved_values_before == solved_values_after
+        if len([box for box in values.keys() if len(values[box]) == 0]):
+            return False
+    return values
 
 def search(values):
-    pass
+    # Reduce the puzzle using the function reduce_puzzle
+    new_values = reduce_puzzle(values.copy())
+    if new_values is False:
+        return False 
+    if all(len(new_values[s]) == 1 for s in squares):
+        return new_values
+    # Selection of blank squares 
+    n,s = min((len(new_values[s]), s) for s in squares if len(new_values[s]) > 1)
+    #Solve for remainder sudokus
+    for value in new_values[s]:
+        new_sudoku = new_values.copy()
+        new_sudoku[s] = value
+        attempt = search(new_sudoku)
+        if attempt:
+            return attempt
 
 def solve(grid):
     """
