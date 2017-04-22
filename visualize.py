@@ -13,5 +13,4 @@ def visualize_assignments(assignments):
             if len(shared_items) < len(current_assignment_items):
                 filtered_assignments.append(assignments[i])
         last_assignment = assignments[i]
-
     play(filtered_assignments)
