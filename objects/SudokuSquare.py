@@ -1,7 +1,5 @@
 import pygame
-
 from pygame import *
-
 def AAfilledRoundedRect(surface,rect,color,radius=0.4):
 
     """
