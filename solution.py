@@ -148,16 +148,19 @@ def solve(grid):
     Returns:
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
+    grid = grid_values(grid)
+    return search(grid)
 
-if __name__ == '__main__':
+    #Solves for Sudoku Grid
+    if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
     display(solve(diag_sudoku_grid))
 
+    #Exceptions
     try:
         from visualize import visualize_assignments
         visualize_assignments(assignments)
-
-    except SystemExit:
+        except SystemExit:
         pass
     except:
         print('We could not visualize your board due to a pygame issue. Not a problem! It is not a requirement.')
