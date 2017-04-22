@@ -12,7 +12,7 @@ A: Constraint propagation allows us to reduce the number of possibilities by app
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
 A: Diagnonal sudokus entail a change in the constraint to implement diagnol constraints as additional units in the puzzle.
-- New units representing each diagnol are introduced and added to our unit list with digits 1-9 appearing once in each.
+- New units representing each diagonal are introduced and added to our unit list with digits 1-9 appearing once in each.
 - All the diagonal entries introduced will now have the corresponding diagonal entries as their peer group.
 - Naked twins, eliminate and only-choice remain the same in terms of functionality with the added set of constraints.
 - We continue to reduce the search space with the added constraints until we uncover the solution.
