@@ -1,5 +1,4 @@
 import os, pygame
-
 def load_image(name):
     """A better load of images."""
     fullname = os.path.join("images", name)
