@@ -3,11 +3,19 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: Constraint propagation allows us to reduce the number of possibilities by applying the same constraint until the constraint hits its limit. In this problem, the process begins with
+- Identifying all the units that contain boxes of identical sets of two possible candidates i.e. the naked twins.
+- Values are then eliminated from the peer groups of the naked twin pairs based on local constraints imposed that none of the other boxes in its unit can have either of the two values.
+- This allows us to expand the funnel of constraints outside of the peer group, narrowing down the sudoku to either creating solves or prospective naked twin pairs.
+- With naked twins, eliminate and only-choice, we are able to acceleration the reduction of possibilities. 
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A: Diagnonal sudokus entail a change in the constraint to implement diagnol constraints as additional units in the puzzle.
+- New units representing each diagnol are introduced and added to our unit list with digits 1-9 appearing once in each.
+- All the diagonal entries introduced will now have the corresponding diagonal entries as their peer group.
+- Naked twins, eliminate and only-choice remain the same in terms of functionality with the added set of constraints.
+- We continue to reduce the search space with the added constraints until we uncover the solution.
 
 ### Install
 
